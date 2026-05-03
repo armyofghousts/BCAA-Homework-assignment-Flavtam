@@ -1,0 +1,10 @@
+{
+  "id": "c8ad19b8-feb3-4327-b73a-e0d04f796db8",
+  "name": "name test",
+  "description": "description testu",
+  "location": "Lokace test",
+  "difficulty": "easy",
+  "images": [],
+  "rating": 5,
+  "categoryId": "34049cff-d310-4794-9a3b-aeb4984cb32d"
+}

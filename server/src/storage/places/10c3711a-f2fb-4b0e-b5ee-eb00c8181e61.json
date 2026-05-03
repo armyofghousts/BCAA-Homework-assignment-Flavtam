@@ -1,0 +1,10 @@
+{
+  "id": "10c3711a-f2fb-4b0e-b5ee-eb00c8181e61",
+  "name": "test",
+  "description": "Upravený popis",
+  "location": "location",
+  "difficulty": "medium",
+  "images": [],
+  "rating": 4,
+  "categoryId": "34049cff-d310-4794-9a3b-aeb4984cb32d"
+}

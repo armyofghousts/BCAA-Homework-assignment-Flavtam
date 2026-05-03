@@ -1,0 +1,6 @@
+node_modules/
+.env
+Du3abl/
+.vscode/
+.idea/
+npm-debug.log
