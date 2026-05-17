@@ -19,6 +19,7 @@ async function createPlace(data) {
     images: data.images,
     rating: data.rating ?? 1,
     categoryId: data.categoryId,
+    createdAt: new Date().toISOString(),
   };
 
   return placeDao.create(place);
@@ -44,6 +45,11 @@ async function getPlaceById(id) {
 }
 
 async function updatePlace(data) {
+  const existing = await placeDao.getById(data.id);
+  if (!existing) {
+    return null;
+  }
+
   const category = await categoryDao.getById(data.categoryId);
   if (!category) {
     const error = new Error("Category not found.");
@@ -60,6 +66,7 @@ async function updatePlace(data) {
     images: data.images,
     rating: data.rating ?? 1,
     categoryId: data.categoryId,
+    createdAt: existing.createdAt,
   });
 }
 

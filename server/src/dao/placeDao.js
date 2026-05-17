@@ -13,8 +13,16 @@ function getPlacePath(id) {
 
 async function create(place) {
   await ensureDir();
-  await fs.writeFile(getPlacePath(place.id), JSON.stringify(place, null, 2), "utf8");
-  return place;
+  const toSave = {
+    ...place,
+    createdAt: place.createdAt || new Date().toISOString(),
+  };
+  await fs.writeFile(
+    getPlacePath(toSave.id),
+    JSON.stringify(toSave, null, 2),
+    "utf8"
+  );
+  return toSave;
 }
 
 async function getById(id) {
@@ -29,20 +37,48 @@ async function getById(id) {
   }
 }
 
+async function loadPlaceEntry(filePath) {
+  const [raw, stat] = await Promise.all([
+    fs.readFile(filePath, "utf8"),
+    fs.stat(filePath),
+  ]);
+
+  let place = JSON.parse(raw);
+
+  if (!place.createdAt) {
+    place = {
+      ...place,
+      createdAt: new Date(stat.mtimeMs).toISOString(),
+    };
+    await fs.writeFile(filePath, JSON.stringify(place, null, 2), "utf8");
+  }
+
+  return {
+    place,
+    sortTime: Date.parse(place.createdAt),
+  };
+}
+
+function sortPlacesNewestFirst(entries) {
+  return entries
+    .sort((a, b) => b.sortTime - a.sortTime)
+    .map((entry) => entry.place);
+}
+
 async function list() {
   await ensureDir();
   const files = await fs.readdir(placesDir);
-  const places = [];
+  const entries = [];
 
   for (const file of files) {
     if (!file.endsWith(".json")) {
       continue;
     }
-    const raw = await fs.readFile(path.join(placesDir, file), "utf8");
-    places.push(JSON.parse(raw));
+    const filePath = path.join(placesDir, file);
+    entries.push(await loadPlaceEntry(filePath));
   }
 
-  return places;
+  return sortPlacesNewestFirst(entries);
 }
 
 async function listByCategoryId(categoryId) {
@@ -56,8 +92,17 @@ async function update(place) {
     return null;
   }
 
-  await fs.writeFile(getPlacePath(place.id), JSON.stringify(place, null, 2), "utf8");
-  return place;
+  const toSave = {
+    ...place,
+    createdAt: existing.createdAt || place.createdAt,
+  };
+
+  await fs.writeFile(
+    getPlacePath(toSave.id),
+    JSON.stringify(toSave, null, 2),
+    "utf8"
+  );
+  return toSave;
 }
 
 async function remove(id) {
