@@ -1,48 +1,36 @@
 # FlavTam
 
-Frontend + backend aplikace pro správu míst a kategorií.
+Frontend and backend application for managing places and categories.
 
-## Technologie
-- React
-- Node.js
-- Express.js
+## Backend
 
-## Funkce aplikace
-- CRUD kategorií
-- CRUD míst
-- Filtrování míst podle kategorií
-- Detail místa
-- Nahrávání obrázků
+Open terminal in `/server`
 
-## Spuštění projektu
+### `npm install`
 
-### Backend
-```bash
-cd server
-npm install
-npm start
+Installs backend dependencies.
 
-Backend běží na:
+### `npm start`
+
+Runs backend server.
+
+Backend runs on:  
 http://localhost:8000
 
-Frontend
-cd client
-npm install
-npm start
+---
 
-Frontend běží typicky na:
-http://localhost:3000
+## Frontend
 
-API Endpointy
-Kategorie
-POST /category/create
-GET /category/list
-GET /category/get/:id
-POST /category/update
-POST /category/delete
-Místa
-POST /place/create
-GET /place/list
-GET /place/get/:id
-POST /place/update
-POST /place/delete
+Open terminal in `/client`
+
+### `npm install`
+
+Installs frontend dependencies.
+
+### `npm start`
+
+Runs the frontend app in development mode.
+
+Open  
+http://localhost:3000  
+to view it in your browser.
